@@ -15,6 +15,7 @@ export interface AppSettings {
   stayOnTop: boolean;
   taskbarIcon: boolean;
   theme: 'original' | 'winter' | 'lunar' | 'cyberpunk';
+  chatTheme: 'glass' | 'magic' | 'gradient' | 'minimal' | 'apple' | 'whatsapp';
 
   // Behavior
   interactionLevel: 'minimal' | 'balanced' | 'hyperactive';
