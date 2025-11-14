@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Zhang Qiang</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body, html {
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      background: transparent;
+      -webkit-app-region: drag;
+    }
+
+    #pet-container {
+      width: 100%;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      -webkit-app-region: no-drag;
+    }
+
+    #pet-image {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      image-rendering: crisp-edges;
+      -webkit-user-drag: none;
+      user-select: none;
+    }
+
+    .context-menu {
+      position: fixed;
+      background: rgba(26, 26, 26, 0.95);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 8px;
+      padding: 8px 0;
+      min-width: 200px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
+      z-index: 1000;
+      backdrop-filter: blur(10px);
+      display: none;
+    }
+
+    .context-menu-item {
+      padding: 10px 16px;
+      color: white;
+      cursor: pointer;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      font-size: 14px;
+      transition: background 0.2s;
+    }
+
+    .context-menu-item:hover {
+      background: rgba(255, 140, 66, 0.2);
+    }
+
+    .context-menu-separator {
+      height: 1px;
+      background: rgba(255, 255, 255, 0.1);
+      margin: 4px 0;
+    }
+
+    .tooltip {
+      position: fixed;
+      background: rgba(0, 0, 0, 0.9);
+      color: white;
+      padding: 6px 12px;
+      border-radius: 4px;
+      font-size: 12px;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      pointer-events: none;
+      z-index: 999;
+      display: none;
+      white-space: nowrap;
+    }
+  </style>
+</head>
+<body>
+  <div id="pet-container">
+    <img id="pet-image" src="../../assets/zhangqiang.png" alt="Zhang Qiang" />
+  </div>
+
+  <div id="context-menu" class="context-menu">
+    <div class="context-menu-item" data-action="chat">💬 Open Chat</div>
+    <div class="context-menu-separator"></div>
+    <div class="context-menu-item" data-action="budget">📊 Budget Status</div>
+    <div class="context-menu-item" data-action="expense">💸 Log Expense</div>
+    <div class="context-menu-item" data-action="goals">🎯 Savings Goals</div>
+    <div class="context-menu-separator"></div>
+    <div class="context-menu-item" data-action="settings">⚙️ Settings</div>
+    <div class="context-menu-item" data-action="quit">🚪 Quit</div>
+  </div>
+
+  <div id="tooltip" class="tooltip"></div>
+
+  <script type="module" src="./pet.tsx"></script>
+</body>
+</html>
