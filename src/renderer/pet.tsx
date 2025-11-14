@@ -8,9 +8,15 @@ const petContainer = document.getElementById('pet-container')!;
 const petImage = document.getElementById('pet-image') as HTMLImageElement;
 const contextMenu = document.getElementById('context-menu')!;
 const tooltip = document.getElementById('tooltip')!;
+const chatButton = document.getElementById('chat-button')!;
 
-// Handle single, double, and triple clicks
+// Handle single and multiple clicks (removed double-click to open chat)
 petContainer.addEventListener('click', (e) => {
+  // Ignore clicks on the chat button
+  if ((e.target as HTMLElement).closest('#chat-button')) {
+    return;
+  }
+
   clickCount++;
 
   if (clickTimer) clearTimeout(clickTimer);
@@ -20,12 +26,8 @@ petContainer.addEventListener('click', (e) => {
       // Single click - show tooltip
       showTooltip('What now? 😐', e.clientX, e.clientY);
       await logInteraction('click');
-    } else if (clickCount === 2) {
-      // Double click - open chat
-      await window.electronAPI.openChatWindow();
-      await logInteraction('double-click');
-    } else if (clickCount >= 3) {
-      // Triple click - shocked
+    } else if (clickCount >= 2) {
+      // Multiple clicks - shocked
       showTooltip("You're REALLY bored, huh?", e.clientX, e.clientY);
       await logInteraction('click');
     }
@@ -34,30 +36,40 @@ petContainer.addEventListener('click', (e) => {
   }, 300);
 });
 
+// Handle chat button click
+chatButton.addEventListener('click', async (e) => {
+  e.stopPropagation();
+  await window.electronAPI.openChatWindow();
+  await logInteraction('chat-button-click');
+});
+
 // Handle right click (context menu)
 petContainer.addEventListener('contextmenu', async (e) => {
   e.preventDefault();
 
-  // Hide previous menu
-  contextMenu.style.display = 'none';
+  // Show menu temporarily to get dimensions
+  contextMenu.style.display = 'block';
+  contextMenu.style.left = '0px';
+  contextMenu.style.top = '0px';
 
-  // Position menu
-  const menuWidth = 200;
-  const menuHeight = 250;
+  // Get actual menu dimensions
+  const menuRect = contextMenu.getBoundingClientRect();
+  const menuWidth = menuRect.width;
+  const menuHeight = menuRect.height;
+
   let x = e.clientX;
   let y = e.clientY;
 
   // Adjust position if menu would go off screen
   if (x + menuWidth > window.innerWidth) {
-    x = window.innerWidth - menuWidth;
+    x = Math.max(0, window.innerWidth - menuWidth);
   }
   if (y + menuHeight > window.innerHeight) {
-    y = window.innerHeight - menuHeight;
+    y = Math.max(0, window.innerHeight - menuHeight);
   }
 
   contextMenu.style.left = `${x}px`;
   contextMenu.style.top = `${y}px`;
-  contextMenu.style.display = 'block';
 
   await logInteraction('right-click');
 });

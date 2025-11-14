@@ -33,6 +33,7 @@ export default defineConfig({
       }
     },
     plugins: [react()],
+    publicDir: resolve(__dirname, 'assets'),
     build: {
       outDir: 'dist-electron/renderer',
       rollupOptions: {

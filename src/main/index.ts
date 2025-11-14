@@ -77,6 +77,37 @@ function createPetWindow() {
   // Make window draggable
   petWindow.setIgnoreMouseEvents(false);
 
+  // Update chat window position when pet window moves
+  petWindow.on('move', () => {
+    if (chatWindow && petWindow) {
+      const petBounds = petWindow.getBounds();
+      const chatBounds = chatWindow.getBounds();
+      const { width: screenWidth, height: screenHeight } = screen.getPrimaryDisplay().workAreaSize;
+
+      // Position chat window to the right of pet with 10px gap
+      let chatX = petBounds.x + petBounds.width + 10;
+      let chatY = petBounds.y;
+
+      // Ensure chat window is within screen bounds
+      if (chatX + chatBounds.width > screenWidth) {
+        // If no room on right, position on left
+        chatX = petBounds.x - chatBounds.width - 10;
+      }
+      if (chatX < 0) {
+        // If still no room, keep current position
+        chatX = chatBounds.x;
+      }
+      if (chatY + chatBounds.height > screenHeight) {
+        chatY = screenHeight - chatBounds.height;
+      }
+      if (chatY < 0) {
+        chatY = 0;
+      }
+
+      chatWindow.setPosition(chatX, chatY, false);
+    }
+  });
+
   petWindow.on('closed', () => {
     petWindow = null;
   });
@@ -99,6 +130,33 @@ function createChatWindow() {
 
   const { width: screenWidth, height: screenHeight } = screen.getPrimaryDisplay().workAreaSize;
 
+  // Position chat window relative to pet window (to the right)
+  let chatX = Math.floor((screenWidth - 420) / 2);
+  let chatY = Math.floor((screenHeight - 600) / 2);
+
+  if (petWindow) {
+    const petBounds = petWindow.getBounds();
+    // Position chat window to the right of pet with 10px gap
+    chatX = petBounds.x + petBounds.width + 10;
+    chatY = petBounds.y;
+
+    // Ensure chat window is within screen bounds
+    if (chatX + 420 > screenWidth) {
+      // If no room on right, position on left
+      chatX = petBounds.x - 420 - 10;
+    }
+    if (chatX < 0) {
+      // If still no room, center it
+      chatX = Math.floor((screenWidth - 420) / 2);
+    }
+    if (chatY + 600 > screenHeight) {
+      chatY = screenHeight - 600;
+    }
+    if (chatY < 0) {
+      chatY = 0;
+    }
+  }
+
   chatWindow = new BrowserWindow({
     width: 420,
     height: 600,
@@ -113,8 +171,8 @@ function createChatWindow() {
       contextIsolation: true,
       nodeIntegration: false,
     },
-    x: Math.floor((screenWidth - 420) / 2),
-    y: Math.floor((screenHeight - 600) / 2),
+    x: chatX,
+    y: chatY,
   });
 
   if (process.env.NODE_ENV === 'development') {
