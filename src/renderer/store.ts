@@ -50,6 +50,7 @@ interface AppState {
   loadUserProfile: () => Promise<void>;
   loadChatHistory: () => Promise<void>;
   sendMessage: (message: string) => Promise<void>;
+  clearChat: () => void;
   loadExpenses: (startDate?: string, endDate?: string) => Promise<void>;
   loadBudgets: () => Promise<void>;
   loadSavingsGoals: () => Promise<void>;
@@ -204,5 +205,9 @@ export const useAppStore = create<AppState>((set, get) => ({
     } catch (error: any) {
       console.error('Failed to check API key status:', error);
     }
+  },
+
+  clearChat: () => {
+    set({ chatMessages: [] });
   },
 }));

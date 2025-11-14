@@ -16,6 +16,7 @@ const ChatWindow: React.FC = () => {
     loadUserProfile,
     loadChatHistory,
     sendMessage,
+    clearChat,
     checkApiKeyStatus,
   } = useAppStore();
 
@@ -102,14 +103,33 @@ const ChatWindow: React.FC = () => {
               }`}>Financial Waste Advisor</p>
             </div>
           </div>
-          {!hasApiKey && (
-            <button
-              onClick={() => window.electronAPI.openSettingsWindow()}
-              className="text-xs text-orange-500 hover:text-orange-400 underline"
-            >
-              Setup API Key
-            </button>
-          )}
+          <div className="flex items-center gap-2">
+            {chatMessages.length > 0 && (
+              <button
+                onClick={clearChat}
+                title="New Conversation"
+                className={`p-2 rounded-lg transition-all hover:scale-105 ${
+                  chatTheme === 'minimal' || chatTheme === 'apple' || chatTheme === 'whatsapp'
+                    ? 'hover:bg-gray-100 text-gray-600 hover:text-gray-900'
+                    : 'hover:bg-white/10 text-gray-400 hover:text-white'
+                }`}
+              >
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                  <polyline points="17 8 12 3 7 8"></polyline>
+                  <line x1="12" y1="3" x2="12" y2="15"></line>
+                </svg>
+              </button>
+            )}
+            {!hasApiKey && (
+              <button
+                onClick={() => window.electronAPI.openSettingsWindow()}
+                className="text-xs text-orange-500 hover:text-orange-400 underline"
+              >
+                Setup API Key
+              </button>
+            )}
+          </div>
         </div>
       </div>
 
