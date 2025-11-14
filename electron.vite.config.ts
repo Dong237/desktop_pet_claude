@@ -6,6 +6,7 @@ export default defineConfig({
   main: {
     plugins: [externalizeDepsPlugin()],
     build: {
+      outDir: 'dist-electron/main',
       rollupOptions: {
         input: {
           index: resolve(__dirname, 'src/main/index.ts')
@@ -16,6 +17,7 @@ export default defineConfig({
   preload: {
     plugins: [externalizeDepsPlugin()],
     build: {
+      outDir: 'dist-electron/preload',
       rollupOptions: {
         input: {
           index: resolve(__dirname, 'src/preload/index.ts')
@@ -32,9 +34,12 @@ export default defineConfig({
     },
     plugins: [react()],
     build: {
+      outDir: 'dist-electron/renderer',
       rollupOptions: {
         input: {
-          index: resolve(__dirname, 'src/renderer/index.html')
+          pet: resolve(__dirname, 'src/renderer/pet.html'),
+          chat: resolve(__dirname, 'src/renderer/chat.html'),
+          settings: resolve(__dirname, 'src/renderer/settings.html')
         }
       }
     }

@@ -7,7 +7,7 @@
   "license": "MIT",
   "private": true,
   "scripts": {
-    "dev": "electron-vite dev",
+    "dev": "node dev.js",
     "build": "electron-vite build",
     "preview": "electron-vite preview",
     "start": "electron-vite preview",
@@ -18,7 +18,12 @@
     "type": "git",
     "url": "http://local_proxy@127.0.0.1:64772/git/Dong237/desktop_pet_claude"
   },
-  "keywords": ["electron", "desktop-pet", "financial-assistant", "ai"],
+  "keywords": [
+    "electron",
+    "desktop-pet",
+    "financial-assistant",
+    "ai"
+  ],
   "dependencies": {
     "axios": "^1.13.2",
     "better-sqlite3": "^12.4.1",
@@ -33,6 +38,7 @@
     "zustand": "^5.0.8"
   },
   "devDependencies": {
+    "@tailwindcss/postcss": "^4.1.17",
     "@types/better-sqlite3": "^7.6.13",
     "@types/node": "^24.10.1",
     "@types/react": "^19.2.4",
@@ -58,13 +64,19 @@
     ],
     "mac": {
       "category": "public.app-category.finance",
-      "target": ["dmg"]
+      "target": [
+        "dmg"
+      ]
     },
     "win": {
-      "target": ["nsis"]
+      "target": [
+        "nsis"
+      ]
     },
     "linux": {
-      "target": ["AppImage"],
+      "target": [
+        "AppImage"
+      ],
       "category": "Office;Finance"
     }
   }
