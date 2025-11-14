@@ -7,6 +7,11 @@ import * as keytar from 'keytar';
 const SERVICE_NAME = 'ZhangQiangPet';
 const QWEN_API_KEY_ACCOUNT = 'QwenAPI';
 
+// Disable sandbox when running as root (for development)
+if (process.getuid && process.getuid() === 0) {
+  app.commandLine.appendSwitch('no-sandbox');
+}
+
 let petWindow: BrowserWindow | null = null;
 let chatWindow: BrowserWindow | null = null;
 let settingsWindow: BrowserWindow | null = null;

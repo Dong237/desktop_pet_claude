@@ -1,6 +1,9 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import "tailwindcss";
+
+@theme {
+  --color-accent-orange: #ff8c42;
+  --color-glass-dark: #1a1a1acc;
+}
 
 :root {
   --glass-dark: rgba(26, 26, 26, 0.8);
@@ -93,7 +96,7 @@ body {
 
 /* Button styles */
 .btn-primary {
-  @apply bg-accent-orange text-white px-4 py-2 rounded-lg font-medium hover:bg-opacity-90 transition-all duration-200 active:scale-95;
+  @apply bg-accent-orange text-white px-4 py-2 rounded-lg font-medium hover:bg-accent-orange/90 transition-all duration-200 active:scale-95;
 }
 
 .btn-secondary {
@@ -106,17 +109,25 @@ body {
 
 /* Input styles */
 .input-field {
-  @apply bg-white/5 border border-white/10 rounded-lg px-4 py-2 text-white placeholder-gray-400 focus:outline-none focus:border-accent-orange focus:ring-1 focus:ring-accent-orange transition-all duration-200;
+  @apply bg-white/5 border border-white/10 rounded-lg px-4 py-2 text-white placeholder:text-gray-400 focus:outline-none focus:border-accent-orange focus:ring-1 focus:ring-accent-orange transition-all duration-200;
 }
 
 /* Card styles */
 .card {
-  @apply glass-panel p-4 shadow-lg;
+  @apply p-4 shadow-lg;
+  background: var(--glass-dark);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border-radius: 16px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 /* Text styles */
 .text-gradient {
-  @apply bg-gradient-to-r from-accent-orange to-yellow-500 bg-clip-text text-transparent;
+  background: linear-gradient(to right, #ff8c42, rgb(234 179 8));
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
 }
 
 /* Loading spinner */
@@ -145,9 +156,11 @@ body {
 
 /* Chat message styles */
 .message-user {
-  @apply bg-accent-orange/20 border border-accent-orange/30 rounded-lg p-3 ml-auto max-w-[80%] animate-fade-in;
+  @apply bg-accent-orange/20 border border-accent-orange/30 rounded-lg p-3 ml-auto max-w-[80%];
+  animation: fadeIn 0.3s ease-out;
 }
 
 .message-assistant {
-  @apply bg-white/5 border border-white/10 rounded-lg p-3 mr-auto max-w-[80%] animate-fade-in;
+  @apply bg-white/5 border border-white/10 rounded-lg p-3 mr-auto max-w-[80%];
+  animation: fadeIn 0.3s ease-out;
 }
