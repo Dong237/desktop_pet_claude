@@ -2,7 +2,7 @@ import { app, BrowserWindow, ipcMain, screen, Menu, Tray, nativeImage } from 'el
 import * as path from 'path';
 import { dbService } from './database';
 import { qwenService } from './qwenApi';
-import * as keytar from 'keytar';
+import { keystoreService } from './keystore';
 
 const SERVICE_NAME = 'ZhangQiangPet';
 const QWEN_API_KEY_ACCOUNT = 'QwenAPI';
@@ -25,7 +25,7 @@ if (!gotTheLock) {
 
 async function loadApiKey() {
   try {
-    const apiKey = await keytar.getPassword(SERVICE_NAME, QWEN_API_KEY_ACCOUNT);
+    const apiKey = await keystoreService.getPassword(SERVICE_NAME, QWEN_API_KEY_ACCOUNT);
     if (apiKey) {
       qwenService.setApiKey(apiKey);
     }
@@ -330,7 +330,7 @@ ipcMain.handle('open-settings-window', async () => {
 
 ipcMain.handle('get-api-key-status', async () => {
   try {
-    const apiKey = await keytar.getPassword(SERVICE_NAME, QWEN_API_KEY_ACCOUNT);
+    const apiKey = await keystoreService.getPassword(SERVICE_NAME, QWEN_API_KEY_ACCOUNT);
     return { hasApiKey: !!apiKey };
   } catch (error) {
     return { hasApiKey: false };
@@ -339,7 +339,7 @@ ipcMain.handle('get-api-key-status', async () => {
 
 ipcMain.handle('save-api-key', async (_, apiKey: string) => {
   try {
-    await keytar.setPassword(SERVICE_NAME, QWEN_API_KEY_ACCOUNT, apiKey);
+    await keystoreService.setPassword(SERVICE_NAME, QWEN_API_KEY_ACCOUNT, apiKey);
     qwenService.setApiKey(apiKey);
     return { success: true };
   } catch (error: any) {
@@ -349,7 +349,7 @@ ipcMain.handle('save-api-key', async (_, apiKey: string) => {
 
 ipcMain.handle('delete-api-key', async () => {
   try {
-    await keytar.deletePassword(SERVICE_NAME, QWEN_API_KEY_ACCOUNT);
+    await keystoreService.deletePassword(SERVICE_NAME, QWEN_API_KEY_ACCOUNT);
     return { success: true };
   } catch (error: any) {
     return { success: false, error: error.message };
