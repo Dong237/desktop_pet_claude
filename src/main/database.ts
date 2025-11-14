@@ -150,6 +150,7 @@ class DatabaseService {
         stayOnTop: true,
         taskbarIcon: true,
         theme: 'original',
+        chatTheme: 'glass',
         interactionLevel: 'balanced',
         humorIntensity: 'sarcastic',
         stayWithinScreen: true,
