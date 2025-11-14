@@ -19,12 +19,19 @@ const ChatWindow: React.FC = () => {
     checkApiKeyStatus,
   } = useAppStore();
 
-  const chatTheme = userProfile?.settings?.chatTheme || 'glass';
+  const chatTheme = userProfile?.settings?.chatTheme || 'minimal';
 
   useEffect(() => {
     loadUserProfile();
     loadChatHistory();
     checkApiKeyStatus();
+
+    // Listen for settings changes from other windows
+    const intervalId = setInterval(() => {
+      loadUserProfile();
+    }, 1000);
+
+    return () => clearInterval(intervalId);
   }, []);
 
   useEffect(() => {
